@@ -1,0 +1,87 @@
+<!doctype html>  
+
+{% load html5boilerplate_tags %}
+
+{% block open_html_tag %}
+    {% tagvariants %}<html lang="en" class="no-js">{% endtagvariants %}
+{% endblock %}
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        {% block page_metadata %}
+            <title></title>
+            <meta name="description" content="">
+            <meta name="author" content="">
+        {% endblock %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico">
+        <link rel="apple-touch-icon" href="{{ MEDIA_URL }}img/apple-touch-icon.png">
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{% html5boilerplate_media_prefix_setting %}css/style.css?v=2">
+        {% endblock %}
+
+        {% block head_javascript %}
+            <script src="{% html5boilerplate_media_prefix_setting %}js/libs/modernizr-1.6.min.js"></script>
+        {% endblock %}
+    {% endblock %}
+</head>
+
+{% block open_body_tag %}
+    <body>    
+{% endblock %}
+    {% block body %}
+        <div id="container">
+            {% block container %}
+                <header>
+                    {% block header %}
+                    {% endblock %}
+                </header>
+
+                <div id="main">
+                    {% block main %}
+                    {% endblock %}
+                </div>
+
+                <footer>
+                    {% block footer %}
+                    {% endblock %}
+                </footer>
+            {% endblock %}
+        </div> <!-- end of #container -->
+
+        {% block body_javascript %}
+            
+            {% load_jquery %}
+     
+            {% block my_javascript %}
+                <script src="{{ MEDIA_URL }}js/plugins.js"></script>
+                <script src="{{ MEDIA_URL }}js/script.js"></script>
+            {% endblock %}
+
+            {% block png_fix %}
+                <!--[if lt IE 7 ]>
+                    <script src="{% html5boilerplate_media_prefix_setting %}js/libs/dd_belatedpng.js"></script>
+                    <script> DD_belatedPNG.fix('img, .png_bg'); </script>
+                <![endif]-->
+            {% endblock %}
+
+            {% block profiler %}
+                {% if DEBUG %}
+                    <!-- yui profiler and profileviewer - remove for production -->
+                    <script src="{% html5boilerplate_media_prefix_setting %}js/profiling/yahoo-profiling.min.js"></script>
+                    <script src="{% html5boilerplate_media_prefix_setting %}js/profiling/config.js"></script>
+                    <!-- end profiling code -->        
+                {% endif %}
+            {% endblock %}
+
+            {% block analytics %}
+                {% google_analytics %}
+            {% endblock %}
+        {% endblock %}
+    {% endblock %}
+</body>
+</html>
