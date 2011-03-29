@@ -6,7 +6,7 @@ import re
 
 register = template.Library()
 
-_HTML5_BOILERPLATE_MEDIA_PREFIX = getattr(settings, 'HTML5_BOILERPLATE_MEDIA_PREFIX', '/media/html5boilerplate/')
+_HTML5_BOILERPLATE_MEDIA_PREFIX = getattr(settings, 'HTML5_BOILERPLATE_MEDIA_PREFIX', '/static/html5boilerplate/')
 _DEFAULT_JQUERY_SOURCES = (
     '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js',
     _HTML5_BOILERPLATE_MEDIA_PREFIX + 'js/libs/jquery-1.4.2.js',
@@ -119,7 +119,7 @@ def load_jquery(parser, token):
 
 
 @register.simple_tag
-def html5boilerplate_media_prefix_setting():
+def html5boilerplate_static_prefix_setting():
     """
     For internal use only.
     """

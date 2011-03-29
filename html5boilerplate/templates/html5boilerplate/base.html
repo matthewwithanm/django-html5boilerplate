@@ -21,11 +21,11 @@
         <link rel="apple-touch-icon" href="{{ MEDIA_URL }}img/apple-touch-icon.png">
 
         {% block stylesheets %}
-            <link rel="stylesheet" href="{% html5boilerplate_media_prefix_setting %}css/style.css?v=2">
+            <link rel="stylesheet" href="{% html5boilerplate_static_prefix_setting %}css/style.css?v=2">
         {% endblock %}
 
         {% block head_javascript %}
-            <script src="{% html5boilerplate_media_prefix_setting %}js/libs/modernizr-1.6.min.js"></script>
+            <script src="{% html5boilerplate_static_prefix_setting %}js/libs/modernizr-1.6.min.js"></script>
         {% endblock %}
     {% endblock %}
 </head>
@@ -64,7 +64,7 @@
 
             {% block png_fix %}
                 <!--[if lt IE 7 ]>
-                    <script src="{% html5boilerplate_media_prefix_setting %}js/libs/dd_belatedpng.js"></script>
+                    <script src="{% html5boilerplate_static_prefix_setting %}js/libs/dd_belatedpng.js"></script>
                     <script> DD_belatedPNG.fix('img, .png_bg'); </script>
                 <![endif]-->
             {% endblock %}
@@ -72,8 +72,8 @@
             {% block profiler %}
                 {% if DEBUG %}
                     <!-- yui profiler and profileviewer - remove for production -->
-                    <script src="{% html5boilerplate_media_prefix_setting %}js/profiling/yahoo-profiling.min.js"></script>
-                    <script src="{% html5boilerplate_media_prefix_setting %}js/profiling/config.js"></script>
+                    <script src="{% html5boilerplate_static_prefix_setting %}js/profiling/yahoo-profiling.min.js"></script>
+                    <script src="{% html5boilerplate_static_prefix_setting %}js/profiling/config.js"></script>
                     <!-- end profiling code -->        
                 {% endif %}
             {% endblock %}
