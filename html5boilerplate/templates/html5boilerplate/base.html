@@ -17,8 +17,8 @@
         {% endblock %}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico">
-        <link rel="apple-touch-icon" href="{{ MEDIA_URL }}img/apple-touch-icon.png">
+        <link rel="shortcut icon" href="{{ html5boilerplate_static_prefix_setting }}img/favicon.ico">
+        <link rel="apple-touch-icon" href="{{ html5boilerplate_static_prefix_setting }}img/apple-touch-icon.png">
 
         {% block stylesheets %}
             <link rel="stylesheet" href="{% html5boilerplate_static_prefix_setting %}css/style.css?v=2">
@@ -58,8 +58,8 @@
             {% load_jquery %}
      
             {% block my_javascript %}
-                <script src="{{ MEDIA_URL }}js/plugins.js"></script>
-                <script src="{{ MEDIA_URL }}js/script.js"></script>
+                <script src="{% html5boilerplate_static_prefix_setting %}js/plugins.js"></script>
+                <script src="{% html5boilerplate_static_prefix_setting %}js/script.js"></script>
             {% endblock %}
 
             {% block png_fix %}
