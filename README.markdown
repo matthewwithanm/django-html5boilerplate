@@ -13,7 +13,7 @@ Installation
 Add `html5boilerplate` to `INSTALLED_APPS` in settings.py. If you plan to
 make use of the included media (bundled JavaScript and CSS files), either copy
 the media folder to your project or duplicate whatever setup you're using for
-your admin media files (symlink, server alias, etc.)
+your admin media files (collectstatic, symlink, server alias, etc.)
 
 Usage
 --------
@@ -33,7 +33,7 @@ create your own using the included template tags, which can be loaded using
 		<pre><code>{% tagvariants %}&lt;html lang="en" class="whatever">{% endtagvariants%}</code></pre>
 		would result in the following:
 		<pre><code>&lt;!--[if lt IE 7 ]>&lt;html lang="en" class="ie6 whatever">&lt;![endif]-->
-&lt;!--[if IE 7 ]>&lt;html lang="en" class="ie6 whatever">&lt;![endif]-->
+&lt;!--[if IE 7 ]>&lt;html lang="en" class="ie7 whatever">&lt;![endif]-->
 &lt;!--[if IE 8 ]>&lt;html lang="en" class="ie8 whatever">&lt;![endif]-->
 &lt;!--[if IE 9 ]>&lt;html lang="en" class="ie9 whatever">&lt;![endif]-->
 &lt;!--[if (gt IE 9)|!(IE)]>&lt;!-->&lt;html lang="en" class="whatever">&lt;!--&lt;![endif]--></code></pre>
@@ -45,7 +45,7 @@ create your own using the included template tags, which can be loaded using
 	<dd>Loads jQuery by trying each item in a list of sources until one is
 		successful. By default, this tag will first try to load the library
 		from Google's CDN and then—if it fails—will load the bundled copy.
-		However, you can override this behavior be either passing a list of
+		However, you can override this behavior by either passing a list of
 		sources to the tag or setting `JQUERY_SOURCES` in settings.py.
 	</dd>
 </dl>
@@ -63,7 +63,7 @@ This application supports the following settings:
 	<dd>A list of sources that jQuery can be found at, in the order in which
 		they should be tried. If this is set, you can use the `load_query` tag
 		without arguments.</dd>
-	<dt>HTML5_BOILERPLATE_MEDIA_PREFIX</dt>
+	<dt>HTML5_BOILERPLATE_STATIC_PREFIX</dt>
 	<dd>A prefix to be used for the bundled media urls. By default, the
-		template will use "/media/html5boilerplate/".</dd>
+		template will use "/static/html5boilerplate/".</dd>
 </dl>
