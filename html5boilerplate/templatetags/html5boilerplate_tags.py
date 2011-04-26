@@ -8,8 +8,8 @@ register = template.Library()
 
 _HTML5_BOILERPLATE_STATIC_PREFIX = getattr(settings, 'HTML5_BOILERPLATE_STATIC_PREFIX', '/static/html5boilerplate/')
 _DEFAULT_JQUERY_SOURCES = (
-    '//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js',
-    _HTML5_BOILERPLATE_STATIC_PREFIX + 'js/libs/jquery-1.4.2.js',
+    '//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js',
+    _HTML5_BOILERPLATE_STATIC_PREFIX + 'js/libs/jquery-1.5.1.min.js',
 )
 
 
@@ -35,8 +35,7 @@ class TagVariantsNode(template.Node):
         ('ie6', '<!--[if lt IE 7 ]>', '<![endif]-->'),
         ('ie7', '<!--[if IE 7 ]>', '<![endif]-->'),
         ('ie8', '<!--[if IE 8 ]>', '<![endif]-->'),
-        ('ie9', '<!--[if IE 9 ]>', '<![endif]-->'),
-        ('', '<!--[if (gt IE 9)|!(IE)]><!-->', '<!--<![endif]-->'),
+        ('', '<!--[if (gte IE 9)|!(IE)]><!-->', '<!--<![endif]-->'),
     )
     
     def __init__(self, nodelist):
