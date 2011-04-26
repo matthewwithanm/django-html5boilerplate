@@ -25,7 +25,7 @@
         {% endblock %}
 
         {% block head_javascript %}
-            <script src="{% html5boilerplate_static_prefix_setting %}js/libs/modernizr-1.6.min.js"></script>
+            <script src="{% html5boilerplate_static_prefix_setting %}js/libs/modernizr-1.7.min.js"></script>
         {% endblock %}
     {% endblock %}
 </head>
@@ -67,15 +67,6 @@
                     <script src="{% html5boilerplate_static_prefix_setting %}js/libs/dd_belatedpng.js"></script>
                     <script> DD_belatedPNG.fix('img, .png_bg'); </script>
                 <![endif]-->
-            {% endblock %}
-
-            {% block profiler %}
-                {% if DEBUG %}
-                    <!-- yui profiler and profileviewer - remove for production -->
-                    <script src="{% html5boilerplate_static_prefix_setting %}js/profiling/yahoo-profiling.min.js"></script>
-                    <script src="{% html5boilerplate_static_prefix_setting %}js/profiling/config.js"></script>
-                    <!-- end profiling code -->        
-                {% endif %}
             {% endblock %}
 
             {% block analytics %}

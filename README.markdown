@@ -7,6 +7,8 @@ importantly—a collection of template tags so you can easily integrate all of
 the boilerplate's tricks into your pages if the template starts to feel too
 restrictive.
 
+The bundled media and templates correspond to the [1.0 release][1] of HTML5 Boilerplate.
+
 Installation
 ------------
 
@@ -35,8 +37,7 @@ create your own using the included template tags, which can be loaded using
 		<pre><code>&lt;!--[if lt IE 7 ]>&lt;html lang="en" class="ie6 whatever">&lt;![endif]-->
 &lt;!--[if IE 7 ]>&lt;html lang="en" class="ie7 whatever">&lt;![endif]-->
 &lt;!--[if IE 8 ]>&lt;html lang="en" class="ie8 whatever">&lt;![endif]-->
-&lt;!--[if IE 9 ]>&lt;html lang="en" class="ie9 whatever">&lt;![endif]-->
-&lt;!--[if (gt IE 9)|!(IE)]>&lt;!-->&lt;html lang="en" class="whatever">&lt;!--&lt;![endif]--></code></pre>
+&lt;!--[if (gte IE 9)|!(IE)]>&lt;!-->&lt;html lang="en" class="whatever">&lt;!--&lt;![endif]--></code></pre>
 		
 		This would usually be used on the `&lt;html>` tag, and allows you to
 		easily target versions of your favorite browser.
@@ -67,3 +68,5 @@ This application supports the following settings:
 	<dd>A prefix to be used for the bundled media urls. By default, the
 		template will use "/static/html5boilerplate/".</dd>
 </dl>
+
+[1]:https://github.com/paulirish/html5-boilerplate/tree/v1.0stripped
