@@ -13,43 +13,68 @@ Installation
 ------------
 
 Add `html5boilerplate` to `INSTALLED_APPS` in settings.py. If you plan to
-make use of the included media (bundled JavaScript and CSS files), either copy
-the media folder to your project or duplicate whatever setup you're using for
-your admin media files (collectstatic, symlink, server alias, etc.)
+make use of the included media (bundled JavaScript and CSS files), don't forget
+to run `collectstatic` (or copy the media folder if you're using an older
+version of Django (< 1.3)).
 
 Usage
 --------
 
 You can either extend the included template ("html5boilerplate/base.html"), or
 create your own using the included template tags, which can be loaded using
-`{% load html5boilerplate_tags %}`. Here is a list of the included tags:
+`{% load html5boilerplate_tags %}`.
 
-<dl>
-	<dt>google_analytics</dt>
-	<dd>Embeds the GA tracking script. You can either pass it your tracking
-		code, or set `GA_TRACKING_CODE` in settings.py</dd>
-	<dt>tagvariants</dt>
-	<dd>Creates duplicates of the wrapped opening tag, each wrapped in an IE
-		conditional comment, with an added class identifying the version of IE.
-		For example:
-		<pre><code>{% tagvariants %}&lt;html lang="en" class="whatever">{% endtagvariants%}</code></pre>
-		would result in the following:
-		<pre><code>&lt;!--[if lt IE 7 ]>&lt;html lang="en" class="ie6 whatever">&lt;![endif]-->
-&lt;!--[if IE 7 ]>&lt;html lang="en" class="ie7 whatever">&lt;![endif]-->
-&lt;!--[if IE 8 ]>&lt;html lang="en" class="ie8 whatever">&lt;![endif]-->
-&lt;!--[if (gte IE 9)|!(IE)]>&lt;!-->&lt;html lang="en" class="whatever">&lt;!--&lt;![endif]--></code></pre>
+
+Template Tags
+-------------
+
+### googleanalytics
+
+Embeds the GA tracking script. You can either pass it your tracking code, or set
+`GA_TRACKING_CODE` in settings.py
+
+### tagvariants
+
+Creates duplicates of the wrapped opening tag, each wrapped in an IE conditional
+comment, with an added class identifying the version of IE.
+
+For example:
+
+    {% tagvariants %}<html lang="en" class="whatever">{% endtagvariants%}
+
+would result in the following:
+
+	<!--[if lt IE 7 ]><html lang="en" class="ie6 whatever"><![endif]-->
+	<!--[if IE 7 ]><html lang="en" class="ie7 whatever"><![endif]-->
+	<!--[if IE 8 ]><html lang="en" class="ie8 whatever"><![endif]-->
+	<!--[if IE 9 ]><html lang="en" class="ie9 whatever"><![endif]-->
+	<!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="whatever"><!--<![endif]-->
 		
-		This would usually be used on the `&lt;html>` tag, and allows you to
-		easily target versions of your favorite browser.
-	</dd>
-	<dt>load_jquery</dt>
-	<dd>Loads jQuery by trying each item in a list of sources until one is
-		successful. By default, this tag will first try to load the library
-		from Google's CDN and then—if it fails—will load the bundled copy.
-		However, you can override this behavior by either passing a list of
-		sources to the tag or setting `JQUERY_SOURCES` in settings.py.
-	</dd>
-</dl>
+This would usually be used on the `<html>` tag, and allows you to easily
+target versions of your favorite browser.
+
+### loadjquery
+
+Loads jQuery by trying each item in a list of sources until one is successful.
+By default, this tag will first try to load the library from Google's CDN and
+then—if it fails—will load the bundled copy. However, you can specify your own
+sources by setting `JQUERY_SOURCES` in settings.py.
+
+### loadjsuntil
+
+A more generic version of `loadjquery`, useful for providing fallback sources
+for any library. Example:
+
+	{% loadjsuntil "jQuery.ui" %}
+    	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
+    	<script src="{{ STATIC_URL }}js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+	{% endloadjsuntil %}
+
+The tag accepts one argument, which specifies a window-level object whose
+existence indicates the library has been successfully loaded. The contents of
+the tag are script nodes that will be written to the DOM until the object
+exists.
+
 
 Settings
 --------
@@ -58,14 +83,13 @@ This application supports the following settings:
 
 <dl>
 	<dt>GA_TRACKING_CODE</dt>
-	<dd>A default tracking code to use for the `google_analytics` template tag.
-		If this is set, you can use the template tag without arguments.</dd>
+	<dd>A default tracking code to use for the <code>googleanalytics</code>
+		template tag. If this is set, you can use the template tag without
+		arguments.</dd>
 	<dt>JQUERY_SOURCES</dt>
-	<dd>A list of sources that jQuery can be found at, in the order in which
-		they should be tried. If this is set, you can use the `load_query` tag
-		without arguments.</dd>
+	<dd>A list of sources that the `loadjquery` tag should use.</dd>
 	<dt>HTML5_BOILERPLATE_STATIC_PREFIX</dt>
-	<dd>A prefix to be used for the bundled media urls. By default, the
+	<dd>A prefix to be used for the bundled static file urls. By default, the
 		template will use "/static/html5boilerplate/".</dd>
 </dl>
 

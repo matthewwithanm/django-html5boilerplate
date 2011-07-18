@@ -2,6 +2,8 @@ from django import template
 from django.conf import settings
 from django.template import TemplateSyntaxError
 import re
+from BeautifulSoup import BeautifulSoup
+import urllib
 
 
 register = template.Library()
@@ -15,14 +17,14 @@ _DEFAULT_JQUERY_SOURCES = (
 
 @register.inclusion_tag('html5boilerplate/includes/google_analytics.html',
                         takes_context=True)
-def google_analytics(context, ga_tracking_code=None):
+def googleanalytics(context, ga_tracking_code=None):
     """
     The GA script.
     """
     if ga_tracking_code is None:
         ga_tracking_code = getattr(settings, 'GA_TRACKING_CODE', None)
     if ga_tracking_code is None:
-        raise TemplateSyntaxError('The google_analytics template tag requires a tracking code. You must either pass it as an argument or set GA_TRACKING_CODE in settings.py.')
+        raise TemplateSyntaxError('The googleanalytics template tag requires a tracking code. You must either pass it as an argument or set GA_TRACKING_CODE in settings.py.')
         
     return {
         'ga_tracking_code': ga_tracking_code,
@@ -76,45 +78,74 @@ def tagvariants(parser, token):
     return TagVariantsNode(nodelist)
 
 
-class LoadJsNode(template.Node):
-    def __init__(self, window_obj, sources, resolve_arguments=True):
-        self.window_obj, self.sources, self.resolve_arguments = window_obj, sources, resolve_arguments
+def _generate_js_embed(tag_name, test_obj, html):
+    soup = BeautifulSoup(html)
 
+    tags = []
+    for tag in soup.findAll():
+        if tag.name != 'script':
+            raise TemplateSyntaxError, '%s can only contain script tags.' % tag_name
+        else:
+            tags.append(tag)
+
+    prop_chain = test_obj.split('.')
+    conditions = []
+    for i in range(len(prop_chain)):
+        conditions.append('window.%s' % '.'.join(prop_chain[:i + 1]))
+    teststr = ' && '.join(conditions)
+    output = ''
+    for tag in tags:
+        escaped_tag = urllib.quote(str(tag)).replace("'", r"\'")
+        output += '\n<script>%s || document.write(unescape(\'%s\'));</script>' % (teststr, escaped_tag)
+    return output
+
+
+class LoadJsUntilNode(template.Node):
+    def __init__(self, test_obj, nodelist):
+        self.test_obj, self.nodelist = test_obj, nodelist
+    
     def render(self, context):
-        # TODO: Support nested window objects better.
-        primary_source = self.sources[0]
-        window_obj = self.window_obj
-        if self.resolve_arguments:
-            primary_source = template.Variable(primary_source).resolve(context)
-            window_obj = template.Variable(self.window_obj).resolve(context)            
-        fallback_sources = self.sources[1:]
-        
-        output = '<script src="%s"></script>' % primary_source
-        for source in fallback_sources:
-            if self.resolve_arguments:
-                source = template.Variable(source).resolve(context)
-            output += '\n<script>!window.%s && document.write(unescape(\'%%3Cscript src="%s"%%3E%%3C/script%%3E\'))</script>' % (window_obj, source)
-        return output
+        html = self.nodelist.render(context)
+        test_obj = template.Variable(self.test_obj).resolve(context)
+        return _generate_js_embed('loadjsuntil', test_obj, html)
 
 
 @register.tag
-def load_js(parser, token):
-    pieces = token.split_contents()[1:]
-    if len(pieces) < 2:
-        raise TemplateSyntaxError, '%s tag requires at least two arguments' % token.contents.split()[0]
-    window_obj = pieces.pop(0)
-    return LoadJsNode(window_obj, pieces)
+def loadjsuntil(parser, token):
+    """
+    Allows you to specify a list of sources from which a JavaScript library
+    should be loaded. Each source will be tried until one successfully results
+    in the creation of the specified window-level object.
+    
+    Usage:
+    
+    {% loadjsuntil "jQuery.ui" %}
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="{{ STATIC_URL }}main/js/libs/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+	{% endloadjsuntil %}
+	"""
+    nodelist = parser.parse(('endloadjsuntil',))
+    parser.delete_first_token()
+    args = token.split_contents()[1:]
+    tag_name = token.contents.split()[0]
+    if len(args) < 1:
+        raise TemplateSyntaxError, '%s tag requires a window-level object to test for.' % tag_name
+    elif len(args) != 1:
+        raise TemplateSyntaxError, '%s tag accepts exactly 1 argument.' % tag_name
+    test_obj = args[0]
+    return LoadJsUntilNode(test_obj, nodelist)
 
     
-@register.tag
-def load_jquery(parser, token):
-    sources = token.split_contents()[1:]
-    if len(sources) < 1:
-        sources = getattr(settings, 'JQUERY_SOURCES', _DEFAULT_JQUERY_SOURCES)
-        return LoadJsNode('jQuery', sources, False)
-    if not sources:
-        raise TemplateSyntaxError, 'The %s tag requires a list of sources. You must either pass it arguments or set JQUERY_SOURCES in settings.py.' % token.contents.split()[0]
-    return LoadJsNode('"jQuery"', sources, True)
+@register.simple_tag
+def loadjquery():
+    """
+    Loads jQuery from the paths specified in JQUERY_SOURCES
+    """
+    html = ''
+    print getattr(settings, 'JQUERY_SOURCES', _DEFAULT_JQUERY_SOURCES)
+    for source in getattr(settings, 'JQUERY_SOURCES', _DEFAULT_JQUERY_SOURCES):
+        html += '<script src="%s" type="text/javascript" charset="utf-8"></script>' % source
+    return _generate_js_embed('loadjquery', 'jQuery', html)
 
 
 @register.simple_tag

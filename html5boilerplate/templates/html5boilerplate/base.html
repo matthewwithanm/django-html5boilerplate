@@ -55,7 +55,7 @@
 
         {% block body_javascript %}
             
-            {% load_jquery %}
+            {% loadjquery %}
      
             {% block my_javascript %}
                 <script src="{% html5boilerplate_static_prefix_setting %}js/plugins.js"></script>
@@ -70,7 +70,7 @@
             {% endblock %}
 
             {% block analytics %}
-                {% google_analytics %}
+                {% googleanalytics %}
             {% endblock %}
         {% endblock %}
     {% endblock %}

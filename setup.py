@@ -21,8 +21,8 @@ setup(
         'html5boilerplate.templates',
         'html5boilerplate.templatetags',
     ],
-    package_data = {'html5boilerplate': ['templates/*', 'media/*']},
-    requires = [],
+    package_data = {'html5boilerplate': ['templates/*', 'static/*']},
+    install_requires = ['BeautifulSoup>=3.2.0'], # TODO: Relax this requirement a bit. I'm sure it works with a much earlier version.
     zip_safe = False,
     classifiers = [
         'Environment :: Web Environment',
