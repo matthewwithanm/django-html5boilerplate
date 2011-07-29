@@ -142,7 +142,6 @@ def loadjquery():
     Loads jQuery from the paths specified in JQUERY_SOURCES
     """
     html = ''
-    print getattr(settings, 'JQUERY_SOURCES', _DEFAULT_JQUERY_SOURCES)
     for source in getattr(settings, 'JQUERY_SOURCES', _DEFAULT_JQUERY_SOURCES):
         html += '<script src="%s" type="text/javascript" charset="utf-8"></script>' % source
     return _generate_js_embed('loadjquery', 'jQuery', html)
