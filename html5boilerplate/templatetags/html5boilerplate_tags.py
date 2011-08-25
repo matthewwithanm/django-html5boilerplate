@@ -2,7 +2,14 @@ from django import template
 from django.conf import settings
 from django.template import TemplateSyntaxError
 import re
-from BeautifulSoup import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    try:
+        from BeautifulSoup import BeautifulSoup
+    except ImportError:
+        raise    
+
 import urllib
 
 
