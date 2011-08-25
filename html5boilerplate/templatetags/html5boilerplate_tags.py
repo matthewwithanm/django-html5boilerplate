@@ -90,10 +90,10 @@ def _generate_js_embed(tag_name, test_obj, html):
 
     tags = []
     for tag in soup.findAll():
-        if tag.name != 'script':
+        if tag.name == 'script' :
+            tags.append(tag)            
+        elif tag.name != 'html' and tag.name != 'head':
             raise TemplateSyntaxError, '%s can only contain script tags.' % tag_name
-        else:
-            tags.append(tag)
 
     prop_chain = test_obj.split('.')
     conditions = []
