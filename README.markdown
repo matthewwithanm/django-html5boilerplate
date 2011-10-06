@@ -7,7 +7,7 @@ importantly—a collection of template tags so you can easily integrate all of
 the boilerplate's tricks into your pages if the template starts to feel too
 restrictive.
 
-The bundled media and templates correspond to the [1.0 release][1] of HTML5 Boilerplate.
+The bundled media and templates correspond to the [2.0 release][1] of HTML5 Boilerplate.
 
 Installation
 ------------
@@ -93,4 +93,4 @@ This application supports the following settings:
 		template will use "/static/html5boilerplate/".</dd>
 </dl>
 
-[1]:https://github.com/paulirish/html5-boilerplate/tree/v1.0stripped
+[1]:https://github.com/paulirish/html5-boilerplate/tree/v2.0stripped

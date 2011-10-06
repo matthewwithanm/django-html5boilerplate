@@ -17,8 +17,8 @@ register = template.Library()
 
 _HTML5_BOILERPLATE_STATIC_PREFIX = getattr(settings, 'HTML5_BOILERPLATE_STATIC_PREFIX', '/static/html5boilerplate/')
 _DEFAULT_JQUERY_SOURCES = (
-    '//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js',
-    _HTML5_BOILERPLATE_STATIC_PREFIX + 'js/libs/jquery-1.5.1.min.js',
+    "//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js",
+    _HTML5_BOILERPLATE_STATIC_PREFIX + "js/libs/jquery-1.6.2.min.js",
 )
 
 
@@ -32,7 +32,7 @@ def googleanalytics(context, ga_tracking_code=None):
         ga_tracking_code = getattr(settings, 'GA_TRACKING_CODE', None)
     if ga_tracking_code is None:
         raise TemplateSyntaxError('The googleanalytics template tag requires a tracking code. You must either pass it as an argument or set GA_TRACKING_CODE in settings.py.')
-        
+ 
     return {
         'ga_tracking_code': ga_tracking_code,
     }
@@ -41,19 +41,19 @@ def googleanalytics(context, ga_tracking_code=None):
 class TagVariantsNode(template.Node):
     
     VARIANTS = (
-        ('ie6', '<!--[if lt IE 7 ]>', '<![endif]-->'),
-        ('ie7', '<!--[if IE 7 ]>', '<![endif]-->'),
-        ('ie8', '<!--[if IE 8 ]>', '<![endif]-->'),
-        ('', '<!--[if (gte IE 9)|!(IE)]><!-->', '<!--<![endif]-->'),
+        ('ie6 oldie', '<!--[if lt IE 7 ]>', '<![endif]-->'),
+        ('ie7 oldie', '<!--[if IE 7 ]>', '<![endif]-->'),
+        ('ie8 oldie', '<!--[if IE 8 ]>', '<![endif]-->'),
+        ('', '<!--[if gt IE 8]><!-->', '<!--<![endif]-->'),
     )
-    
+
     def __init__(self, nodelist):
         self.nodelist = nodelist
 
     def render(self, context):
         tag = self.nodelist.render(context)
         output_lines = []
-        
+
         # This may be somewhat fragile, but parsing as HTML seems like overkill.
         for variant, wrapper_open, wrapper_close in TagVariantsNode.VARIANTS:
             if variant:
@@ -71,9 +71,9 @@ def tagvariants(parser, token):
     """
     Adds variants of the wrapped tag for specific browsers, adding classes for
     versions of IE.
-    
+
     Example:
-        
+
         {% tagvariants %}
         <body css="border:0;" class="my-class">
         {% endtagvariants %}
@@ -110,7 +110,7 @@ def _generate_js_embed(tag_name, test_obj, html):
 class LoadJsUntilNode(template.Node):
     def __init__(self, test_obj, nodelist):
         self.test_obj, self.nodelist = test_obj, nodelist
-    
+
     def render(self, context):
         html = self.nodelist.render(context)
         test_obj = template.Variable(self.test_obj).resolve(context)
@@ -123,9 +123,9 @@ def loadjsuntil(parser, token):
     Allows you to specify a list of sources from which a JavaScript library
     should be loaded. Each source will be tried until one successfully results
     in the creation of the specified window-level object.
-    
+
     Usage:
-    
+
     {% loadjsuntil "jQuery.ui" %}
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
 	    <script src="{{ STATIC_URL }}main/js/libs/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -142,7 +142,7 @@ def loadjsuntil(parser, token):
     test_obj = args[0]
     return LoadJsUntilNode(test_obj, nodelist)
 
-    
+
 @register.simple_tag
 def loadjquery():
     """
