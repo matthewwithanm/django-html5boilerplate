@@ -18,7 +18,6 @@ setup(
     author_email = 'matthew@exanimo.com',
     packages = [
         'html5boilerplate',
-        'html5boilerplate.templates',
         'html5boilerplate.templatetags',
     ],
     package_data = {'html5boilerplate': ['templates/*', 'static/*']},
