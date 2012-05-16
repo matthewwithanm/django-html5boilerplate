@@ -1,5 +1,5 @@
 import os
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -16,11 +16,7 @@ setup(
 
     author = 'Matthew Tretter',
     author_email = 'matthew@exanimo.com',
-    packages = [
-        'html5boilerplate',
-        'html5boilerplate.templatetags',
-    ],
-    package_data = {'html5boilerplate': ['templates/*', 'static/*']},
+    packages = find_packages(),
     install_requires = ['BeautifulSoup>=3.2.0'], # TODO: Relax this requirement a bit. I'm sure it works with a much earlier version.
     zip_safe = False,
     classifiers = [
